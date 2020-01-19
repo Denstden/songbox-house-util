@@ -13,7 +13,7 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 @Slf4j
 public class JsonUtils implements ApplicationContextAware {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    protected static ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public void setApplicationContext(final ApplicationContext applicationContext) {
