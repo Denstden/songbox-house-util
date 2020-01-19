@@ -1,0 +1,34 @@
+apply plugin: 'java'
+
+group = 'com.github.Denstden'
+version = '0.0.1'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter:2.1.3.RELEASE')
+
+    compile('org.apache.commons:commons-lang3:3.6')
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+
+    testCompile('org.springframework.boot:spring-boot-starter-test:2.1.3.RELEASE')
+}
+
+jar {
+    baseName 'songbox-house-util'
+    enabled = true
+    doFirst {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+}
