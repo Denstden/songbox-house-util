@@ -2,21 +2,20 @@ package songbox.house.util;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.compile;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static songbox.house.util.Pair.of;
+import static org.apache.logging.log4j.util.Strings.isNotBlank;
+import static songbox.house.util.ArtistsTitle.of;
 
 @Slf4j
-public class ArtistTitleUtil {
+public class ArtistsTitleUtil {
 
     private static final Pattern ARTIST_TITLE_REGEX = compile("^((\\W*\\s*)|(#\\d*;?.?))?" +
             "(?<artists>[A-Z].*)(\\s*)( - )(\\s*)(?<title>.*)$");
 
-    public static Pair<String, String> extractArtistTitle(String query) {
+    public static ArtistsTitle extractArtistTitle(String query) {
         Matcher matcher = ARTIST_TITLE_REGEX.matcher(query);
         if (matcher.matches()) {
             String artists = matcher.group("artists");
@@ -32,7 +31,7 @@ public class ArtistTitleUtil {
         return extractDummy(query);
     }
 
-    private static Pair<String, String> extractDummy(String query) {
+    private static ArtistsTitle extractDummy(String query) {
         String[] artistTitle = query.split("-", 2);
 
         String artists = null;

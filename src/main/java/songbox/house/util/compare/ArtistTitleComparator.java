@@ -1,10 +1,15 @@
 package songbox.house.util.compare;
 
-import songbox.house.util.Pair;
+import songbox.house.util.ArtistsTitle;
 
-public class ArtistTitleComparator extends LevenshteinDistanceComparator {
-    public int compareArtistTitle(Pair<String, String> artistTitle1, Pair<String, String> artistTitle2) {
-        return compare(artistTitle1.getLeft() + "-" + artistTitle1.getRight(),
-                artistTitle2.getLeft() + "-" + artistTitle2.getRight());
+import java.util.Comparator;
+
+public class ArtistTitleComparator implements Comparator<ArtistsTitle> {
+
+    private static final LevenshteinDistanceComparator COMPARATOR = new LevenshteinDistanceComparator();
+
+    @Override
+    public int compare(ArtistsTitle artistsTitle1, ArtistsTitle artistsTitle2) {
+        return COMPARATOR.compare(artistsTitle1.toString(), artistsTitle2.toString());
     }
 }
