@@ -17,7 +17,7 @@ public class ArtistsTitle {
     private final String artists;
     private final String title;
 
-    private ArtistsTitle(String artists, String title) {
+    protected ArtistsTitle(String artists, String title) {
         this.artists = artists;
         this.title = title;
     }
