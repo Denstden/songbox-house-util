@@ -10,6 +10,8 @@ public class ArtistTitleComparator implements Comparator<ArtistsTitle> {
 
     @Override
     public int compare(ArtistsTitle artistsTitle1, ArtistsTitle artistsTitle2) {
-        return COMPARATOR.compare(artistsTitle1.toString(), artistsTitle2.toString());
+        int artists = COMPARATOR.compare(artistsTitle1.getArtists(), artistsTitle2.getArtists());
+        int title = COMPARATOR.compare(artistsTitle1.getTitle(), artistsTitle2.getTitle());
+        return (artists + title) / 2;
     }
 }
