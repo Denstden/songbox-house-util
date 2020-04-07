@@ -58,12 +58,11 @@ public class LevenshteinDistanceComparator implements Comparator<String> {
 
     @Override
     public int compare(String str1, String expected) {
-        if (isNull(str1)) {
-            if (isNull(expected)) {
-                return 100;
-            } else {
-                return 0;
-            }
+        if (isNull(str1) && isNull(expected)) {
+            return 100;
+        }
+        if (isNull(str1) || isNull(expected)) {
+            return 0;
         }
         final String[] words1 = str1.split(SPLIT_PATTERN);
         final List<String> expectedWords = Arrays.stream(expected.split(SPLIT_PATTERN))
