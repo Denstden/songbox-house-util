@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 public class LevenshteinDistanceComparator implements Comparator<String> {
 
     private static final String SPLIT_PATTERN = "[\\p{Punct}\\s]+";
@@ -56,6 +58,13 @@ public class LevenshteinDistanceComparator implements Comparator<String> {
 
     @Override
     public int compare(String str1, String expected) {
+        if (isNull(str1)) {
+            if (isNull(expected)) {
+                return 100;
+            } else {
+                return 0;
+            }
+        }
         final String[] words1 = str1.split(SPLIT_PATTERN);
         final List<String> expectedWords = Arrays.stream(expected.split(SPLIT_PATTERN))
                 .map(String::toLowerCase)

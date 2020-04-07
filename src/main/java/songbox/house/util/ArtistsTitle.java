@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.Optional.ofNullable;
 import static java.util.regex.Pattern.compile;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
@@ -18,8 +19,8 @@ public class ArtistsTitle {
     private final String title;
 
     protected ArtistsTitle(String artists, String title) {
-        this.artists = artists;
-        this.title = title;
+        this.artists = safeTrim(artists);
+        this.title = safeTrim(title);
     }
 
     public static ArtistsTitle of(String artists, String title) {
@@ -72,5 +73,9 @@ public class ArtistsTitle {
         }
 
         return of(artists, title);
+    }
+
+    private String safeTrim(String str) {
+        return ofNullable(str).map(String::trim).orElse(null);
     }
 }
