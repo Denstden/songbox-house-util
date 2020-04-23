@@ -1,6 +1,7 @@
 package songbox.house.util;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Map;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class ThreadChangeTest {
     ExecutorService executorService = null;
     static ThreadLocal<String> threadLocal = new ThreadLocal<>();
