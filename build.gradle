@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 group = 'com.github.Denstden'
-version = '0.0.12'
+version = '0.0.13'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -15,7 +15,7 @@ repositories {
 ext.jacksonVersion = '2.9.8'
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter:2.1.3.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-aop:2.1.3.RELEASE')
 
     // Jackson
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
