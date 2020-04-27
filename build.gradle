@@ -1,15 +1,13 @@
 apply plugin: 'java'
 
 group = 'com.github.Denstden'
-version = '0.0.17'
+version = '0.0.18'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-
-    maven { url 'https://jitpack.io' }
 }
 
 ext.jacksonVersion = '2.9.8'
