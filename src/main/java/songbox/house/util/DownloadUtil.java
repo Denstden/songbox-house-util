@@ -22,27 +22,43 @@ public class DownloadUtil {
     private static final int DEFAULT_READ_TIMEOUT = 10_000;
 
     public static Optional<byte[]> downloadBytes(String url) {
-        return download(url, null);
+        return download(url, null, -1, -1);
     }
 
-    public static Optional<byte[]> downloadBytes(String url, Proxy proxy) {
-        return download(url, proxy);
+    public static Optional<byte[]> downloadBytes(String url, Proxy proxy, long bytesStart, long bytesEnd) {
+        return download(url, proxy, bytesStart, bytesEnd);
     }
 
-    private static Optional<byte[]> download(String urlStr, Proxy proxy) {
-        return getOptionalWithRetries(DownloadUtil::doDownload, urlStr, proxy, DEFAULT_RETRIES, "download_bytes");
+    private static Optional<byte[]> download(String urlStr, Proxy proxy, long bytesStart, long bytesEnd) {
+        DownloadContext downloadContext = new DownloadContext(proxy, bytesStart, bytesEnd);
+        return getOptionalWithRetries(DownloadUtil::doDownload, urlStr, downloadContext, DEFAULT_RETRIES, "download_bytes");
     }
 
-    private static Optional<byte[]> doDownload(String urlStr, Proxy proxy) {
+    private static Optional<byte[]> doDownload(String urlStr, DownloadContext context) {
         try {
             final URL url = new URL(urlStr);
-            final HttpURLConnection connection = getConnection(url, proxy);
+            final HttpURLConnection connection = getConnection(url, context.proxy);
+            if (context.start > 0 && context.end > 0 && context.end > context.start) {
+                connection.setRequestProperty("range", "bytes=" + context.start + "-" + context.end);
+            }
             final InputStream inputStream = connection.getInputStream();
             final byte[] bytes = toByteArray(inputStream);
             return of(bytes);
         } catch (Exception e) {
             log.debug("Retryable exception", e);
             return empty();
+        }
+    }
+
+    private static class DownloadContext {
+        final Proxy proxy;
+        final long start;
+        final long end;
+
+        private DownloadContext(Proxy proxy, long start, long end) {
+            this.proxy = proxy;
+            this.start = start;
+            this.end = end;
         }
     }
 
