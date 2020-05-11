@@ -15,10 +15,13 @@ public class ArtistsTitle {
     private static final Pattern ARTIST_TITLE_REGEX = compile("^((\\W*\\s*)|(#\\d*;?.?))?" +
             "(?<artists>[A-Z].*)(\\s*)( - )(\\s*)(?<title>.*)$");
 
-    private final String artists;
-    private final String title;
+    private String artists;
+    private String title;
 
-    protected ArtistsTitle(String artists, String title) {
+    public ArtistsTitle() {
+    }
+
+    public ArtistsTitle(String artists, String title) {
         this.artists = safeTrim(artists);
         this.title = safeTrim(title);
     }
@@ -38,6 +41,14 @@ public class ArtistsTitle {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setArtists(String artists) {
+        this.artists = artists;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public static ArtistsTitle parse(String artistsTitleString) {
