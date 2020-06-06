@@ -3,18 +3,11 @@ package songbox.house.util;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class ThreadChange {
+    static ThreadLocal<Boolean> alreadyApplied = new ThreadLocal<>();
     public static interface ThreadChangeListener {
         void didChange(String changeUUID);
 
@@ -61,6 +54,12 @@ public class ThreadChange {
 
     public static Runnable applyContext(Runnable task) {
         ThreadChangeTransaction changeTransaction = createThreadChangeTransaction();
+
+        if (Objects.equals(alreadyApplied.get(), true)) {
+            return task;
+        }
+        alreadyApplied.set(true);
+
         changeTransaction.willChange();
         return () -> {
             changeTransaction.didChange();
