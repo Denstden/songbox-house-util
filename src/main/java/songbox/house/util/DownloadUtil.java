@@ -66,6 +66,7 @@ public class DownloadUtil {
         final HttpURLConnection connection = (HttpURLConnection) (nonNull(proxy) ? url.openConnection(proxy) : url.openConnection());
         connection.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT);
         connection.setReadTimeout(DEFAULT_READ_TIMEOUT);
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; U; Linux i586; en-US; rv:1.7.3) Gecko/20040924 Epiphany/1.4.4 (Ubuntu)");
         return connection;
     }
 }

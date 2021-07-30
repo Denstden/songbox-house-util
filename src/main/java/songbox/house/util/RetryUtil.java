@@ -93,6 +93,7 @@ public final class RetryUtil {
             final T input1, final E input2, final int maxRetries, final String operation) {
         int retries = 0;
         Optional<R> result;
+        Throwable lastException = null;
         do {
             if (retries != 0) {
                 log.debug("Retry {}, {}", retries, operation);
@@ -100,13 +101,14 @@ public final class RetryUtil {
             try {
                 result = function.apply(input1, input2);
             } catch (Exception e) {
+                lastException = e;
                 log.debug("Retryable exception", e);
                 result = empty();
             }
         } while (!result.isPresent() && ++retries < maxRetries);
 
         if (!result.isPresent()) {
-            log.warn("Can't execute {} in {} tries", operation, retries);
+            log.warn("Can't execute {} in {} tries", operation, retries, lastException);
         }
 
         return result;
